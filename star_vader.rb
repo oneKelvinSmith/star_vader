@@ -5,17 +5,18 @@ require_relative 'enemy'
 class StarVaders < Gosu::Window
   WIDTH = 800
   HEIGHT = 600
+  ENEMY_FREQUENCY = 0.05
 
   def initialize
     super WIDTH, HEIGHT
     self.caption = 'May the force be with you...'
     @player = Player.new(self)
-    @enemy = Enemy.new(self)
+    @enemies = []
   end
 
   def draw
     @player.draw
-    @enemy.draw
+    @enemies.each(&:draw)
   end
 
   def update
@@ -23,7 +24,8 @@ class StarVaders < Gosu::Window
     @player.turn_right if button_down? Gosu::KbRight
     @player.accelerate if button_down? Gosu::KbUp
     @player.move
-    @enemy.move
+    @enemies.push Enemy.new(self) if rand < ENEMY_FREQUENCY
+    @enemies.each(&:move)
   end
 end
 
