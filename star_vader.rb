@@ -26,7 +26,7 @@ class StarVader < Gosu::Window
   end
 
   def update
-    @player.turn_left if button_down? Gosu::KbLeft
+    @player.turn_left  if button_down? Gosu::KbLeft
     @player.turn_right if button_down? Gosu::KbRight
     @player.accelerate if button_down? Gosu::KbUp
     @player.move
@@ -43,8 +43,14 @@ class StarVader < Gosu::Window
         end
       end
     end
+    @enemies.dup.each do |enemy|
+      @enemies.delete enemy if enemy.y > HEIGHT + enemy.radius
+    end
     @explosions.dup.each do |explosion|
-      @explosions.delete explosion if explosion.finished
+      @explosions.delete explosion if explosion.finished?
+    end
+    @lazers.dup.each do |lazer|
+      @lazers.delete lazer unless lazer.onscreen?
     end
   end
 
