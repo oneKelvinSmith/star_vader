@@ -38,17 +38,17 @@ class Player
     @velocity_y *= FRICTION
 
     if @x > @window.width - @radius
-      @velocity_x = 0
+      @velocity_x = -@velocity_x
       @x = @window.width - @radius
     end
 
     if @x < @radius
-      @velocity_x = 0
+      @velocity_x = -@velocity_x
       @x = @radius
     end
 
     if @y > @window.height - @radius
-      @velocity_y = 0
+      @velocity_y = -@velocity_y
       @y = @window.height - @radius
     end
   end
