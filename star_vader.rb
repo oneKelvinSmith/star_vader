@@ -1,6 +1,7 @@
 require 'gosu'
 require_relative 'player'
 require_relative 'enemy'
+require_relative 'lazer'
 
 class StarVaders < Gosu::Window
   WIDTH = 800
@@ -12,11 +13,13 @@ class StarVaders < Gosu::Window
     self.caption = 'May the force be with you...'
     @player = Player.new(self)
     @enemies = []
+    @lazers = []
   end
 
   def draw
     @player.draw
     @enemies.each(&:draw)
+    @lazers.each(&:draw)
   end
 
   def update
@@ -26,6 +29,13 @@ class StarVaders < Gosu::Window
     @player.move
     @enemies.push Enemy.new(self) if rand < ENEMY_FREQUENCY
     @enemies.each(&:move)
+    @lazers.each(&:move)
+  end
+
+  def button_down(key)
+    if key == Gosu::KbSpace
+      @lazers.push Lazer.new(self, @player.x, @player.y, @player.angle)
+    end
   end
 end
 
