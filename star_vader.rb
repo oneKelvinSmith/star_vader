@@ -2,6 +2,7 @@ require 'gosu'
 require_relative 'player'
 require_relative 'enemy'
 require_relative 'lazer'
+require_relative 'explosion'
 
 class StarVaders < Gosu::Window
   WIDTH = 800
@@ -11,15 +12,17 @@ class StarVaders < Gosu::Window
   def initialize
     super WIDTH, HEIGHT
     self.caption = 'May the force be with you...'
-    @player = Player.new(self)
-    @enemies = []
-    @lazers = []
+    @player      = Player.new(self)
+    @enemies     = []
+    @lazers      = []
+    @explosions  = []
   end
 
   def draw
     @player.draw
     @enemies.each(&:draw)
     @lazers.each(&:draw)
+    @explosions.each(&:draw)
   end
 
   def update
@@ -36,6 +39,7 @@ class StarVaders < Gosu::Window
         if distance < enemy.radius + lazer.radius
           @enemies.delete enemy
           @lazers.delete lazer
+          @explosions.push Explosion.new(self, enemy.x, enemy.y)
         end
       end
     end
