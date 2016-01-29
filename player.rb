@@ -1,13 +1,13 @@
 class Player
-  ROTATION_SPEED = 5
-  ACCELERATION = 1.5
+  ROTATION_SPEED = 6
+  ACCELERATION = 1.4
   FRICTION = 0.9
 
   def initialize(window)
     @x = 200
     @y = 200
     @angle = 0
-    @image = Gosu::Image.new('images/vader.png')
+    @image = Gosu::Image.new 'images/vader.png'
     @velocity_x = 0
     @velocity_y = 0
     @radius = 20
@@ -27,8 +27,8 @@ class Player
   end
 
   def accelerate
-    @velocity_x += Gosu.offset_x(@angle, ACCELERATION)
-    @velocity_y += Gosu.offset_y(@angle, ACCELERATION)
+    @velocity_x += Gosu.offset_x @angle, ACCELERATION
+    @velocity_y += Gosu.offset_y @angle, ACCELERATION
   end
 
   def move
