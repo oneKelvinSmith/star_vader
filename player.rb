@@ -1,6 +1,6 @@
 class Player
   ROTATION_SPEED = 6
-  ACCELERATION = 1.4
+  ACCELERATION = 0.9
   FRICTION = 0.9
 
   attr_reader :x, :y, :angle, :radius

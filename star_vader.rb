@@ -30,6 +30,15 @@ class StarVaders < Gosu::Window
     @enemies.push Enemy.new(self) if rand < ENEMY_FREQUENCY
     @enemies.each(&:move)
     @lazers.each(&:move)
+    @enemies.dup.each do |enemy|
+      @lazers.dup.each do |lazer|
+        distance = Gosu.distance(enemy.x, enemy.y, lazer.x, lazer.y)
+        if distance < enemy.radius + lazer.radius
+          @enemies.delete enemy
+          @lazers.delete lazer
+        end
+      end
+    end
   end
 
   def button_down(key)
