@@ -4,7 +4,7 @@ require_relative 'enemy'
 require_relative 'lazer'
 require_relative 'explosion'
 
-class StarVaders < Gosu::Window
+class StarVader < Gosu::Window
   WIDTH = 800
   HEIGHT = 600
   ENEMY_FREQUENCY = 0.05
@@ -43,6 +43,9 @@ class StarVaders < Gosu::Window
         end
       end
     end
+    @explosions.dup.each do |explosion|
+      @explosions.delete explosion if explosion.finished
+    end
   end
 
   def button_down(key)
@@ -52,5 +55,5 @@ class StarVaders < Gosu::Window
   end
 end
 
-window = StarVaders.new
+window = StarVader.new
 window.show
