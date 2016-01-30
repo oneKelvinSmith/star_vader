@@ -8,7 +8,7 @@ class Lazer
     @y = y
     @direction = angle
     @image = Gosu::Image.new 'images/lazer_green.png'
-    @radius = 3
+    @radius = 6
     @window = window
   end
 

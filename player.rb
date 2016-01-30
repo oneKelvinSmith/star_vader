@@ -1,5 +1,5 @@
 class Player
-  ROTATION_SPEED = 6
+  ROTATION_SPEED = 5
   ACCELERATION = 0.9
   FRICTION = 0.9
 
@@ -12,7 +12,7 @@ class Player
     @image = Gosu::Image.new 'images/vader.png'
     @velocity_x = 0
     @velocity_y = 0
-    @radius = 20
+    @radius = 24
     @window = window
   end
 
