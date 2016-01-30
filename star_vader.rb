@@ -12,20 +12,53 @@ class StarVader < Gosu::Window
   def initialize
     super WIDTH, HEIGHT
     self.caption = 'May the force be with you...'
+    @background_image = Gosu::Image.new('images/start.png')
+    @scene = :start
+  end
+
+  def initialize_game
     @player      = Player.new(self)
     @enemies     = []
     @lazers      = []
     @explosions  = []
+    @scene       = :game
   end
 
   def draw
+    case @scene
+    when :start
+      draw_start
+    when :game
+      draw_game
+    when :end
+      draw_end
+    end
+  end
+
+  def draw_start
+    @background_image.draw 0, 0, 0
+  end
+
+  def draw_game
     @player.draw
     @enemies.each(&:draw)
     @lazers.each(&:draw)
     @explosions.each(&:draw)
   end
 
+  def draw_end
+  end
+
   def update
+    case @scene
+    when :game
+      update_game
+    when :end
+      update_end
+    end
+  end
+
+  def update_game
     @player.turn_left  if button_down? Gosu::KbLeft
     @player.turn_right if button_down? Gosu::KbRight
     @player.accelerate if button_down? Gosu::KbUp
@@ -54,7 +87,25 @@ class StarVader < Gosu::Window
     end
   end
 
+  def update_end
+  end
+
   def button_down(key)
+    case @scene
+    when :start
+      button_down_start(key)
+    when :game
+      button_down_game(key)
+    when :end
+      button_down_end(key)
+    end
+  end
+
+  def button_down_start(_key)
+    initialize_game
+  end
+
+  def button_down_game(key)
     if key == Gosu::KbSpace
       @lazers.push Lazer.new(self, @player.x, @player.y, @player.angle)
     end
