@@ -1,18 +1,18 @@
 class Player
-  ROTATION_SPEED = 5
-  ACCELERATION = 0.9
+  ROTATION_SPEED = 6
+  ACCELERATION = 0.7
   FRICTION = 0.9
 
   attr_reader :x, :y, :angle, :radius
 
   def initialize(window)
-    @x = 200
-    @y = 200
+    @x = 350
+    @y = 500
     @angle = 0
     @image = Gosu::Image.new 'images/vader.png'
     @velocity_x = 0
     @velocity_y = 0
-    @radius = 24
+    @radius = 20
     @window = window
   end
 

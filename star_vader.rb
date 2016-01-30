@@ -9,28 +9,40 @@ class StarVader < Gosu::Window
   WIDTH = 800
   HEIGHT = 600
   ENEMY_FREQUENCY = 0.03
-  MAX_ENEMIES = 25
+  MAX_ENEMIES = 100
 
   def initialize
     super WIDTH, HEIGHT
     self.caption = 'May the force be with you...'
-    @background_image = Gosu::Image.new('images/start.png')
     @scene = :start
+    @background_image = Gosu::Image.new('images/start.png')
+    @start_music      = Gosu::Song.new('sounds/black_vortex.mp3')
+    @start_music.play true
   end
 
   def initialize_game
+    @scene = :game
     @background_image = Gosu::Image.new('images/background.png')
+    @game_music       = Gosu::Song.new('sounds/phantom_from_space.mp3')
+    @game_music.play true
+
+    @explosion_sound = Gosu::Sample.new('sounds/explosion.mp3')
+    @lazer_sound     = Gosu::Sample.new('sounds/tie_lazer.wav')
+
     @player      = Player.new(self)
     @enemies     = []
     @lazers      = []
     @explosions  = []
-    @scene       = :game
     @enemies_appeared  = 0
     @enemies_destroyed = 0
   end
 
   def initialize_end(fate)
+    @scene = :end
     @background_image = Gosu::Image.new('images/end.png')
+    @game_music       = Gosu::Song.new('sounds/despair_and_triumph.mp3')
+    @game_music.play true
+
     case fate
     when :count_reached
       @message = "You vanquished #{@enemies_destroyed} rebels!"
@@ -51,7 +63,6 @@ class StarVader < Gosu::Window
       @credits.push Credit.new(self, line.chomp, 100, y)
       y += 30
     end
-    @scene = :end
   end
 
   def draw
@@ -116,6 +127,7 @@ class StarVader < Gosu::Window
           @enemies.delete enemy
           @lazers.delete lazer
           @explosions.push Explosion.new(self, enemy.x, enemy.y)
+          @explosion_sound.play
           @enemies_destroyed += 1
         end
       end
@@ -160,6 +172,7 @@ class StarVader < Gosu::Window
   def button_down_game(key)
     if key == Gosu::KbSpace
       @lazers.push Lazer.new(self, @player.x, @player.y, @player.angle)
+      @lazer_sound.play
     end
   end
 
